@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const DescriptionText = styled.h2`
   max-width: 450px;
   font-size: 1.5em;
   font-weight: normal;
   letter-spacing: 0;
-`;
+`
 
 export default function Description() {
   return (
@@ -23,5 +23,5 @@ export default function Description() {
       -- my experience as an entrepreneur has broadened my skillset
       substantially.
     </DescriptionText>
-  );
+  )
 }

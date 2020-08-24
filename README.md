@@ -1,3 +1,5 @@
+![An example of the Gatsby theme running in Safari](./example.gif)
+
 <h1 align="center">
   Minimal Portfolio for Gatsby
 </h1>

@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import React, { useCallback, useEffect, useState, useRef } from "react"
+import styled from "styled-components"
 
 const ProjectItemContainer = styled.div`
   position: relative;
 
-  &:hover {
+  & h3:hover {
     color: var(--colors-primary);
   }
 
@@ -14,38 +14,44 @@ const ProjectItemContainer = styled.div`
     height: var(--project-image-height, auto);
     top: var(--project-image-offset, -50%);
     left: 4em;
-    z-index: 7100;
+    z-index: -1;
   }
 
-  &:hover img {
+  & h3 {
+    display: inline-block;
+    margin: 0.5em 0;
+  }
+
+  & h3:hover + img {
     opacity: 1;
     display: block;
+    z-index: 7100;
   }
-`;
+`
 
 export default function ProjectItem({
   title,
   imageSrc,
   imageAlt,
-  maxHeight = 500
+  maxHeight = 500,
 }) {
-  const [imageHeight, setImageHeight] = useState();
-  const [imageOffset, setImageOffset] = useState();
-  const imageRef = useRef();
+  const [imageHeight, setImageHeight] = useState()
+  const [imageOffset, setImageOffset] = useState()
+  const imageRef = useRef()
 
   // Make sure to scale image even smaller if bigger than user's window height
   const imageHeightHandler = useCallback(() => {
     // Reset height to max
-    let newHeight = maxHeight;
+    let newHeight = maxHeight
     const clientHeight =
       window.innerHeight ||
       document.documentElement.clientHeight ||
-      document.body.clientHeight;
-    if (clientHeight && newHeight > clientHeight) newHeight = clientHeight;
-    console.log(clientHeight, newHeight);
-    setImageHeight(newHeight);
+      document.body.clientHeight
+    if (clientHeight && newHeight > clientHeight) newHeight = clientHeight
+    console.log(clientHeight, newHeight)
+    setImageHeight(newHeight)
 
-    let newOffset = `-${Math.round(newHeight / 2)}px`;
+    let newOffset = `-${Math.round(newHeight / 2)}px`
     // Check if image is positioned outside viewport
     // const currentImagePosition = imageRef.current.getBoundingClientRect();
     // console.log("position", currentImagePosition.y);
@@ -58,34 +64,34 @@ export default function ProjectItem({
     //     currentImagePosition.y + imageRef.current.clientHeight - clientHeight;
     //   newOffset = `-${Math.round(difference)}px`;
     // }
-    setImageOffset(newOffset);
-  }, [maxHeight, imageRef]);
+    setImageOffset(newOffset)
+  }, [maxHeight, imageRef])
 
   const handleResize = useCallback(() => {
-    imageHeightHandler();
-  }, [imageHeightHandler]);
+    imageHeightHandler()
+  }, [imageHeightHandler])
 
   useEffect(() => {
-    imageHeightHandler();
-  }, [imageHeightHandler]);
+    imageHeightHandler()
+  }, [imageHeightHandler])
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  });
+      window.removeEventListener("resize", handleResize)
+    }
+  })
 
   return (
     <ProjectItemContainer
       style={{
         "--project-image-offset": imageOffset,
-        "--project-image-height": imageHeight ? `${imageHeight}px` : "auto"
+        "--project-image-height": imageHeight ? `${imageHeight}px` : "auto",
       }}
     >
       <h3>{title}</h3>
       <img ref={imageRef} src={imageSrc} alt={imageAlt} width="auto" />
     </ProjectItemContainer>
-  );
+  )
 }
